@@ -253,7 +253,20 @@ extension GameViewController {
                 correctCountLabel.text = "\(correctCount)"
                 
                 if correctCount == 10 {
-                    gameset()
+                    gameTimer.invalidate()
+                    mainButtonOutlet.isEnabled = false
+                    canInput = false
+                    var soundCount = 0
+                    Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: { (timer) in
+                        AudioServicesPlaySystemSound(1313)
+                        soundCount += 1
+                        if soundCount == 3 {
+                            timer.invalidate()
+                        }
+                    })
+                    Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: { _ in
+                        self.gameset()
+                    })
                 }
                 
                 AudioServicesPlaySystemSound(1377)
@@ -271,7 +284,6 @@ extension GameViewController {
     }
     
     func gameset() {
-        gameTimer.invalidate()
         isHidden(status: true)
         let gameoverLabel = UILabel()
         gameoverLabel.frame = UIScreen.main.bounds
@@ -282,11 +294,11 @@ extension GameViewController {
         view.addSubview(gameoverLabel)
         gameoverLabel.transform = CGAffineTransform(scaleX: 50, y: 50)
         gameoverLabel.alpha = 0
-        UIView.animate(withDuration: 0.5, animations: {
+        UIView.animate(withDuration: 1, animations: {
             gameoverLabel.transform = CGAffineTransform.identity
             gameoverLabel.alpha = 1
         })
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
+        Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in
             gameoverLabel.removeFromSuperview()
             let alert = UIAlertController(title: nil, message: "難度：\(self.level!)\n使用時間：\(self.minuteLabel.text!)分\(self.secondLabel.text!)秒", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "確定", style: .default, handler: { _ in

@@ -43,5 +43,11 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         destinationController.level = level
     }
     
+    @IBAction func illustrateButton(_ sender: UIButton) {
+        if let pageController = storyboard?.instantiateViewController(withIdentifier: "IllustratePageController") as? IllustratePageController {
+            present(pageController, animated: true, completion: nil)
+        }
+    }
+    
 }
 

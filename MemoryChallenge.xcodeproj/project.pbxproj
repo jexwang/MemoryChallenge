@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		80CFE9841ECCA7B000D2297C /* IllustrateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CFE9831ECCA7B000D2297C /* IllustrateViewController.swift */; };
+		80CFE9871ECCAACC00D2297C /* IllustratePageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CFE9861ECCAACC00D2297C /* IllustratePageController.swift */; };
 		80EEFA9A1ECA044000847D20 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EEFA991ECA044000847D20 /* AppDelegate.swift */; };
 		80EEFAA11ECA044000847D20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80EEFAA01ECA044000847D20 /* Assets.xcassets */; };
 		80EEFAA41ECA044000847D20 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80EEFAA21ECA044000847D20 /* LaunchScreen.storyboard */; };
@@ -16,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		80CFE9831ECCA7B000D2297C /* IllustrateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IllustrateViewController.swift; sourceTree = "<group>"; };
+		80CFE9861ECCAACC00D2297C /* IllustratePageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IllustratePageController.swift; sourceTree = "<group>"; };
 		80EEFA961ECA044000847D20 /* MemoryChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MemoryChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80EEFA991ECA044000847D20 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		80EEFAA01ECA044000847D20 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -37,6 +41,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		80CFE9851ECCA7BC00D2297C /* Illustrate */ = {
+			isa = PBXGroup;
+			children = (
+				80CFE9861ECCAACC00D2297C /* IllustratePageController.swift */,
+				80CFE9831ECCA7B000D2297C /* IllustrateViewController.swift */,
+			);
+			name = Illustrate;
+			sourceTree = "<group>";
+		};
 		80EEFA8D1ECA043F00847D20 = {
 			isa = PBXGroup;
 			children = (
@@ -57,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				80EEFA991ECA044000847D20 /* AppDelegate.swift */,
+				80CFE9851ECCA7BC00D2297C /* Illustrate */,
 				80EEFABD1ECA058C00847D20 /* ViewController.swift */,
 				80EEFABC1ECA058C00847D20 /* GameViewController.swift */,
 				80EEFAB91ECA058300847D20 /* Main.storyboard */,
@@ -143,6 +157,8 @@
 				80EEFABF1ECA058C00847D20 /* ViewController.swift in Sources */,
 				80EEFABE1ECA058C00847D20 /* GameViewController.swift in Sources */,
 				80EEFA9A1ECA044000847D20 /* AppDelegate.swift in Sources */,
+				80CFE9841ECCA7B000D2297C /* IllustrateViewController.swift in Sources */,
+				80CFE9871ECCAACC00D2297C /* IllustratePageController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
