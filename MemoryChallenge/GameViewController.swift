@@ -18,13 +18,20 @@ class GameViewController: UIViewController {
     @IBOutlet weak var correctCountStackView: UIStackView!
     @IBOutlet weak var mainButtonOutlet: UIButton!
     @IBOutlet weak var answerLabel: UILabel!
+    @IBOutlet weak var answerLabel2: UILabel!
     @IBOutlet weak var mainQuestionLabel: UILabel!
+    @IBOutlet weak var mainQuestionLabel2: UILabel!
     @IBOutlet weak var subQuestionLabel: UILabel!
+    @IBOutlet weak var subQuestionLabel2: UILabel!
     @IBOutlet weak var questionMarkLabel: UILabel!
+    @IBOutlet weak var questionMarkLabel2: UILabel!
     @IBOutlet weak var numberPadStackView: UIStackView!
     
     var level: Int!
     var timeCounting = 1
+    var questionArray: [String] = []
+    var answerArray: [Int] = []
+    var questionCount = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,6 +61,7 @@ class GameViewController: UIViewController {
         mainQuestionLabel.isHidden = status
         subQuestionLabel.isHidden = status
         questionMarkLabel.isHidden = status
+        questionMarkLabel2.isHidden = status
         numberPadStackView.isHidden = status
     }
 
@@ -76,6 +84,7 @@ class GameViewController: UIViewController {
                 startCountdownLabel.removeFromSuperview()
                 self.isHidden(status: false)
                 self.timer()
+                self.question()
             }
             
             startCountdownLabel.transform = CGAffineTransform(scaleX: 50, y: 50)
@@ -104,7 +113,8 @@ class GameViewController: UIViewController {
     }
     
     @IBAction func mainButton(_ sender: UIButton) {
-        
+        question()
+        answerLabel.text?.removeAll()
     }
     
     @IBAction func numberPad(_ sender: UIButton) {
@@ -119,28 +129,95 @@ class GameViewController: UIViewController {
             }
         case 11:
             if answerLabel.text != "" {
-                let ansString = answerLabel.text!
-                answerLabel.text = ansString[ansString.startIndex..<ansString.index(before: ansString.endIndex)]
+                let index = answerLabel.text!.index(before: answerLabel.text!.endIndex)
+                answerLabel.text!.remove(at: index)
             }
         default:
             break
         }
     }
     
-    
     @IBAction func backButton(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
     }
-    
 
-    /*
-    // MARK: - Navigation
+}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+extension GameViewController {
+    func question() {
+        let firstNumber = arc4random_uniform(10)
+        let secondNumber = arc4random_uniform(firstNumber + 1)
+        let randomOpretor = arc4random_uniform(2)
+        if randomOpretor == 0 {
+            let question = "\(firstNumber) + \(secondNumber) ="
+            questionArray.append(question)
+            let answer = firstNumber + secondNumber
+            answerArray.append(Int(answer))
+        } else {
+            let question = "\(firstNumber) - \(secondNumber) ="
+            questionArray.append(question)
+            let answer = firstNumber - secondNumber
+            answerArray.append(Int(answer))
+        }
+        questionCount += 1
+        animate()
     }
-    */
-
+    
+    func animate() {
+        subQuestionLabel.text = questionArray[questionArray.count - 1]
+        subQuestionLabel.transform = CGAffineTransform(translationX: 0, y: -30)
+        subQuestionLabel.alpha = 0
+        
+        questionMarkLabel.transform = CGAffineTransform(translationX: 0, y: -30)
+        questionMarkLabel.alpha = 0
+        
+        UIView.animate(withDuration: 0.5) {
+            self.subQuestionLabel.transform = .identity
+            self.subQuestionLabel.alpha = 1
+            self.questionMarkLabel.transform = .identity
+            self.questionMarkLabel.alpha = 1
+        }
+        
+        if questionCount > 1 {
+            subQuestionLabel2.text = questionArray[questionCount - 2]
+            subQuestionLabel2.transform = .identity
+            subQuestionLabel2.alpha = 1
+            
+            questionMarkLabel2.transform = .identity
+            questionMarkLabel2.alpha = 1
+            
+            UIView.animate(withDuration: 0.5, animations: {
+                self.subQuestionLabel2.transform = CGAffineTransform(translationX: 0, y: 30)
+                self.subQuestionLabel2.alpha = 0
+                self.questionMarkLabel2.transform = CGAffineTransform(translationX: 0, y: 30)
+                self.questionMarkLabel2.alpha = 0
+            })
+        }
+        
+        if questionCount > level {
+            mainQuestionLabel.transform = CGAffineTransform(translationX: 0, y: -30)
+            mainQuestionLabel.alpha = 0
+            UIView.animate(withDuration: 0.5, animations: {
+                self.mainQuestionLabel.transform = .identity
+                self.mainQuestionLabel.alpha = 1
+            })
+        }
+        
+        if questionCount > level + 1 {
+            mainQuestionLabel2.text = questionArray[questionCount - (level + 2)]
+            mainQuestionLabel2.transform = .identity
+            mainQuestionLabel2.alpha = 1
+            
+            answerLabel2.text = answerLabel.text
+            answerLabel2.transform = .identity
+            answerLabel2.alpha = 1
+            
+            UIView.animate(withDuration: 0.5, animations: { 
+                self.mainQuestionLabel2.transform = CGAffineTransform(translationX: 0, y: 30)
+                self.mainQuestionLabel2.alpha = 0
+                self.answerLabel2.transform = CGAffineTransform(translationX: 0, y: 30)
+                self.answerLabel2.alpha = 0
+            })
+        }
+    }
 }
