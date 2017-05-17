@@ -50,13 +50,8 @@
                                     <segue destination="hNg-ne-7Lp" kind="show" identifier="Start" id="yRE-d9-JAO"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ngw-d5-Xon">
-                                <rect key="frame" x="119" y="460" width="82" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="觀看排名"/>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8jx-CX-3aj">
-                                <rect key="frame" x="119" y="512" width="82" height="36"/>
+                                <rect key="frame" x="119" y="460" width="82" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="規則說明"/>
                                 <connections>
@@ -67,17 +62,15 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="XCu-98-A8c" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="50" id="D2j-RO-cJm"/>
-                            <constraint firstItem="ngw-d5-Xon" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="HTP-bP-aLX"/>
                             <constraint firstItem="K4S-Fw-pwB" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="JFG-GG-qyq"/>
                             <constraint firstItem="K4S-Fw-pwB" firstAttribute="top" secondItem="bct-pf-HDe" secondAttribute="bottom" constant="8" id="TO3-HV-2Kp"/>
                             <constraint firstItem="XCu-98-A8c" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="WkE-6i-ZI9"/>
                             <constraint firstItem="d0W-pp-pzv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Zjg-Xd-a9L"/>
                             <constraint firstItem="bct-pf-HDe" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="a6y-G9-poX"/>
                             <constraint firstItem="K4S-Fw-pwB" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="k6Z-o3-vzh"/>
-                            <constraint firstItem="ngw-d5-Xon" firstAttribute="top" secondItem="d0W-pp-pzv" secondAttribute="bottom" constant="16" id="l1A-nY-xoS"/>
-                            <constraint firstItem="8jx-CX-3aj" firstAttribute="top" secondItem="ngw-d5-Xon" secondAttribute="bottom" constant="16" id="mj9-GB-gdc"/>
                             <constraint firstItem="d0W-pp-pzv" firstAttribute="top" secondItem="K4S-Fw-pwB" secondAttribute="bottom" constant="16" id="tsa-qX-B1z"/>
                             <constraint firstItem="8jx-CX-3aj" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vNo-OM-8vK"/>
+                            <constraint firstItem="8jx-CX-3aj" firstAttribute="top" secondItem="d0W-pp-pzv" secondAttribute="bottom" constant="16" id="vse-5Q-HXy"/>
                             <constraint firstItem="XCu-98-A8c" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="vtz-t2-VQ1"/>
                         </constraints>
                     </view>

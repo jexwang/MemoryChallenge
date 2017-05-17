@@ -252,7 +252,7 @@ extension GameViewController {
                 correctCount += 1
                 correctCountLabel.text = "\(correctCount)"
                 
-                if correctCount == 10 {
+                if correctCount == 30 {
                     gameTimer.invalidate()
                     mainButtonOutlet.isEnabled = false
                     canInput = false
