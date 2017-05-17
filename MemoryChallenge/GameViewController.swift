@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AudioToolbox
 
 class GameViewController: UIViewController {
     
@@ -36,6 +37,7 @@ class GameViewController: UIViewController {
     var questionCount = 0
     var canInput = false
     var correctCount = 0
+    var gameTimer: Timer!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,8 +80,9 @@ class GameViewController: UIViewController {
         let startCountdownLabel = UILabel()
         startCountdownLabel.frame = UIScreen.main.bounds
         startCountdownLabel.textAlignment = .center
-        startCountdownLabel.text = "Ready?"
+        startCountdownLabel.text = "READY?"
         startCountdownLabel.font = UIFont.boldSystemFont(ofSize: 80)
+        startCountdownLabel.adjustsFontSizeToFitWidth = true
         view.addSubview(startCountdownLabel)
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (timer) in
             switch startCountdownNumber {
@@ -91,7 +94,10 @@ class GameViewController: UIViewController {
                 timer.invalidate()
                 startCountdownLabel.removeFromSuperview()
                 self.isHidden(status: false)
-                self.timer()
+                self.gameTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                    self.timeCounting += 1
+                    self.timerRefresh()
+                }
                 self.question()
             }
             
@@ -103,13 +109,6 @@ class GameViewController: UIViewController {
             })
             
             startCountdownNumber -= 1
-        }
-    }
-    
-    func timer() {
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (timer) in
-            self.timeCounting += 1
-            self.timerRefresh()
         }
     }
     
@@ -253,15 +252,47 @@ extension GameViewController {
                 correctCount += 1
                 correctCountLabel.text = "\(correctCount)"
                 
+                if correctCount == 10 {
+                    gameset()
+                }
+                
+                AudioServicesPlaySystemSound(1377)
                 judgeLabel.text = "O"
                 judgeLabel.textColor = UIColor.green
             } else {
                 timeCounting += 3
                 timerRefresh()
                 
+                AudioServicesPlaySystemSound(1380)
                 judgeLabel.text = "X"
                 judgeLabel.textColor = UIColor.red
             }
+        }
+    }
+    
+    func gameset() {
+        gameTimer.invalidate()
+        isHidden(status: true)
+        let gameoverLabel = UILabel()
+        gameoverLabel.frame = UIScreen.main.bounds
+        gameoverLabel.textAlignment = .center
+        gameoverLabel.text = "GAME SET!"
+        gameoverLabel.font = UIFont.boldSystemFont(ofSize: 80)
+        gameoverLabel.adjustsFontSizeToFitWidth = true
+        view.addSubview(gameoverLabel)
+        gameoverLabel.transform = CGAffineTransform(scaleX: 50, y: 50)
+        gameoverLabel.alpha = 0
+        UIView.animate(withDuration: 0.5, animations: {
+            gameoverLabel.transform = CGAffineTransform.identity
+            gameoverLabel.alpha = 1
+        })
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
+            gameoverLabel.removeFromSuperview()
+            let alert = UIAlertController(title: nil, message: "難度：\(self.level!)\n使用時間：\(self.minuteLabel.text!)分\(self.secondLabel.text!)秒", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "確定", style: .default, handler: { _ in
+                self.navigationController?.popViewController(animated: true)
+            }))
+            self.present(alert, animated: true, completion: nil)
         }
     }
 }
