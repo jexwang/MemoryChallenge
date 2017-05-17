@@ -16,9 +16,11 @@ class GameViewController: UIViewController {
     @IBOutlet weak var colonLabel: UILabel!
     @IBOutlet weak var secondLabel: UILabel!
     @IBOutlet weak var correctCountStackView: UIStackView!
+    @IBOutlet weak var correctCountLabel: UILabel!
     @IBOutlet weak var mainButtonOutlet: UIButton!
     @IBOutlet weak var answerLabel: UILabel!
     @IBOutlet weak var answerLabel2: UILabel!
+    @IBOutlet weak var judgeLabel: UILabel!
     @IBOutlet weak var mainQuestionLabel: UILabel!
     @IBOutlet weak var mainQuestionLabel2: UILabel!
     @IBOutlet weak var subQuestionLabel: UILabel!
@@ -28,10 +30,12 @@ class GameViewController: UIViewController {
     @IBOutlet weak var numberPadStackView: UIStackView!
     
     var level: Int!
-    var timeCounting = 1
+    var timeCounting = 0
     var questionArray: [String] = []
     var answerArray: [Int] = []
     var questionCount = 0
+    var canInput = false
+    var correctCount = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,8 +62,12 @@ class GameViewController: UIViewController {
         correctCountStackView.isHidden = status
         mainButtonOutlet.isHidden = status
         answerLabel.isHidden = status
+        answerLabel2.isHidden = status
+        judgeLabel.isHidden = status
         mainQuestionLabel.isHidden = status
+        mainQuestionLabel2.isHidden = status
         subQuestionLabel.isHidden = status
+        subQuestionLabel2.isHidden = status
         questionMarkLabel.isHidden = status
         questionMarkLabel2.isHidden = status
         numberPadStackView.isHidden = status
@@ -99,41 +107,48 @@ class GameViewController: UIViewController {
     }
     
     func timer() {
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (timer) in
+            self.timeCounting += 1
+            self.timerRefresh()
+        }
+    }
+    
+    func timerRefresh() {
         var minute: Int {
             return timeCounting / 60
         }
         var second: Int {
             return timeCounting % 60
         }
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (timer) in
-            self.minuteLabel.text = "\(String(format: "%02d", minute))"
-            self.secondLabel.text = "\(String(format: "%02d", second))"
-            self.timeCounting += 1
-        }
+        minuteLabel.text = "\(String(format: "%02d", minute))"
+        secondLabel.text = "\(String(format: "%02d", second))"
     }
     
     @IBAction func mainButton(_ sender: UIButton) {
+        judge()
         question()
         answerLabel.text?.removeAll()
     }
     
     @IBAction func numberPad(_ sender: UIButton) {
-        switch sender.tag {
-        case 1...9:
-            if (answerLabel.text?.characters.count)! < 2 {
-                answerLabel.text?.append(String(sender.tag))
+        if canInput {
+            switch sender.tag {
+            case 1...9:
+                if (answerLabel.text?.characters.count)! < 2 {
+                    answerLabel.text?.append(String(sender.tag))
+                }
+            case 10:
+                if (answerLabel.text?.characters.count)! < 2 {
+                    answerLabel.text?.append("0")
+                }
+            case 11:
+                if answerLabel.text != "" {
+                    let index = answerLabel.text!.index(before: answerLabel.text!.endIndex)
+                    answerLabel.text!.remove(at: index)
+                }
+            default:
+                break
             }
-        case 10:
-            if (answerLabel.text?.characters.count)! < 2 {
-                answerLabel.text?.append("0")
-            }
-        case 11:
-            if answerLabel.text != "" {
-                let index = answerLabel.text!.index(before: answerLabel.text!.endIndex)
-                answerLabel.text!.remove(at: index)
-            }
-        default:
-            break
         }
     }
     
@@ -159,8 +174,14 @@ extension GameViewController {
             let answer = firstNumber - secondNumber
             answerArray.append(Int(answer))
         }
+        
         questionCount += 1
         animate()
+        
+        if questionCount == level + 1 {
+            mainButtonOutlet.setTitle("Enter", for: .normal)
+            canInput = true
+        }
     }
     
     func animate() {
@@ -212,12 +233,35 @@ extension GameViewController {
             answerLabel2.transform = .identity
             answerLabel2.alpha = 1
             
+            judgeLabel.transform = .identity
+            judgeLabel.alpha = 1
+            
             UIView.animate(withDuration: 0.5, animations: { 
                 self.mainQuestionLabel2.transform = CGAffineTransform(translationX: 0, y: 30)
                 self.mainQuestionLabel2.alpha = 0
                 self.answerLabel2.transform = CGAffineTransform(translationX: 0, y: 30)
                 self.answerLabel2.alpha = 0
+                self.judgeLabel.transform = CGAffineTransform(translationX: 0, y: 30)
+                self.judgeLabel.alpha = 0
             })
+        }
+    }
+    
+    func judge() {
+        if canInput {
+            if Int(answerLabel.text!) == answerArray[questionCount - (level + 1)] {
+                correctCount += 1
+                correctCountLabel.text = "\(correctCount)"
+                
+                judgeLabel.text = "O"
+                judgeLabel.textColor = UIColor.green
+            } else {
+                timeCounting += 3
+                timerRefresh()
+                
+                judgeLabel.text = "X"
+                judgeLabel.textColor = UIColor.red
+            }
         }
     }
 }
